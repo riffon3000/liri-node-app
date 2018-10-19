@@ -19,7 +19,7 @@ function searchSpotify() {
             }])
         .then(function (songTitle) {
             spotify
-                .request(`https://api.spotify.com/v1/tracks/${songTitle.query}`)
+                .request(`https://api.spotify.com/v1/tracks/${songTitle.query}&apikey=${spotifyKey}`)
                 .then(function (data) {
                     // console.log(data);
                     let song = data.tracks.items[0];
