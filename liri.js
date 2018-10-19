@@ -9,6 +9,35 @@ const spotifyKey = new Spotify(keys.spotify);
 const ombdKey = new OBDb(keys.ombd);
 const bandsintownKey = new Bandsintown(keys.bandsintown);
 
+function searchSpotify() {
+    inquirer
+        .prompt([
+            {
+                type: "input",
+                message: "What song title do you want me to look up?",
+                name: "query"
+            }])
+        .then(function (songTitle) {
+            spotify
+                .request(`https://api.spotify.com/v1/tracks/${songTitle.query}`)
+                .then(function (data) {
+                    // console.log(data);
+                    let song = data.tracks.items[0];
+                    let artistName = song.album.artists[0].name;
+                    console.log(`
+            Artist: ${artistName}
+            Song title: ${song}
+            Album Name: ${song.album.name}
+            Preview URL: ${song.preview_url}
+            `)
+                })
+                .catch(function (err) {
+                    console.log(`Error occurred: ${err}`);
+                });
+            liri();
+        });
+};
+
 function searchOMDb() {
     inquirer
         .prompt([
